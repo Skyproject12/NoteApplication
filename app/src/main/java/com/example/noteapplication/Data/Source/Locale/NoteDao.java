@@ -1,4 +1,4 @@
-package com.example.noteapplication;
+package com.example.noteapplication.Data.Source.Locale;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Delete;
@@ -6,6 +6,8 @@ import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Update;
+
+import com.example.noteapplication.Data.Module.Note;
 
 import java.util.List;
 

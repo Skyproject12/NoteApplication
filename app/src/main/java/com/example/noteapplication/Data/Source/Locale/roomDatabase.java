@@ -1,4 +1,4 @@
-package com.example.noteapplication;
+package com.example.noteapplication.Data.Source.Locale;
 
 import android.content.Context;
 

@@ -1,4 +1,4 @@
-package com.example.noteapplication;
+package com.example.noteapplication.Data.Module;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -9,10 +9,12 @@ import androidx.room.PrimaryKey;
 
 @Entity
 public class Note implements Parcelable {
+    // initial auto increment
     @PrimaryKey(autoGenerate=true)
     @ColumnInfo(name="id")
     private int id;
 
+    // initial name column
     @ColumnInfo(name= "title")
     private String title;
 

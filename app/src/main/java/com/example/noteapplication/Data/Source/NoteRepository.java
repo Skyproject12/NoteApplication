@@ -18,6 +18,7 @@ public class NoteRepository {
     private ExecutorService executorService;
     public NoteRepository (Application application){
         executorService= Executors.newSingleThreadExecutor();
+        // defination database
         roomDatabase db= roomDatabase.getDatabase(application);
         mNoteDao= db.noteDao();
 

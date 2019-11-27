@@ -119,7 +119,7 @@ public class NoteAddUpdateActivity extends AppCompatActivity {
                     if(isEdit){
                         // melakukan update database melalui viewmodel
                         noteAddUpdateViewModel.update(note);
-                        // mengeset status intent adalah update
+                        // mengeset status intent adalah update ketika sudah melakukan update agar snackbar di main dapat meresponse
                         setResult(RESULT_UPDATE, intent);
                         // mengirim hasil intent ke activity sebelumnya
                         finish();

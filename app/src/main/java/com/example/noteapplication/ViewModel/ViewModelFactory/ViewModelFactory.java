@@ -17,8 +17,8 @@ public class ViewModelFactory extends ViewModelProvider.NewInstanceFactory {
     private Application application;
 
     // initial application for context viewmodel
-    private ViewModelFactory(Application application){
-        application= application;
+    private ViewModelFactory(Application mApplication){
+        application= mApplication;
     }
 
     public static ViewModelFactory getInstance(Application application){

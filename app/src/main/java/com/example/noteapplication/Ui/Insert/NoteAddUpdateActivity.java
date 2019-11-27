@@ -39,8 +39,8 @@ public class NoteAddUpdateActivity extends AppCompatActivity {
     private final int ALERT_DIALOG_CLOSE=10;
     private final int ALERT_DIALOG_DELETE=20;
 
-    private static final String EXTRA_NOTE= "extra_note";
-    private static final String EXTRA_POSITION= "extra_position";
+    public static final String EXTRA_NOTE= "extra_note";
+    public static final String EXTRA_POSITION= "extra_position";
 
     private NoteAddUpdateViewModel noteAddUpdateViewModel;
 

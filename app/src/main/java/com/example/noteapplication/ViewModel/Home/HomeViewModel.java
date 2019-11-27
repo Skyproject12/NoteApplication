@@ -19,7 +19,7 @@ public class HomeViewModel extends ViewModel {
 
     }
     // getAllNote from repository
-    LiveData<List<Note>> getAllNotes(){
+    public LiveData<List<Note>> getAllNotes(){
         return mNoteRepository.getAllNotes();
 
     }

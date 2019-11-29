@@ -6,7 +6,9 @@ import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
+import androidx.room.RawQuery;
 import androidx.room.Update;
+import androidx.sqlite.db.SupportSQLiteQuery;
 
 import com.example.noteapplication.Data.Module.Note;
 
@@ -29,9 +31,14 @@ public interface NoteDao {
     @Delete()
     void delete(Note note);
 
-    // select id
-    @Query("SELECT * from note ORDER BY id ASC")
-    // memanggil datasource pagging
-    DataSource.Factory<Integer, Note> getAllNotes();
+//    // select id
+//    @Query("SELECT * from note ORDER BY id ASC")
+//    // memanggil datasource pagging
+//    DataSource.Factory<Integer, Note> getAllNotes();
+
+    // use rawQuery
+    @RawQuery(observedEntities = Note.class)
+    DataSource.Factory<Integer, Note> getAllNote(SupportSQLiteQuery query);
+
 
 }

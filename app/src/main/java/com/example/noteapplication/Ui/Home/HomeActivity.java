@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.example.noteapplication.Data.Module.Note;
+import com.example.noteapplication.Data.Source.Locale.SortUtils;
 import com.example.noteapplication.R;
 import com.example.noteapplication.Ui.Insert.NoteAddUpdateActivity;
 import com.example.noteapplication.ViewModel.Home.HomeViewModel;
@@ -35,7 +36,7 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         HomeViewModel homeViewModel= obtainViewModel(HomeActivity.this);
         // set value notes in noteObserver use homeViewModel.getAllNotes
-        homeViewModel.getAllNotes().observe(this, noteObserver);
+        homeViewModel.getAllNote(SortUtils.NEWEST).observe(this, noteObserver);
         adapter= new NotePageListAdapter(HomeActivity.this);
         recyclerView= findViewById(R.id.recycler_note);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));

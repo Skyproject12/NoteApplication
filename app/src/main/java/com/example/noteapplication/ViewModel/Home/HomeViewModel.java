@@ -24,10 +24,14 @@ public class HomeViewModel extends ViewModel {
 
     }
     // getAllNote from repository
-    public LiveData<PagedList<Note>> getAllNotes(){
-        // change to use Pangging
-        return new LivePagedListBuilder<>(mNoteRepository.getAllNotes(),20).build();
-        // memberi batas page hanya 20 size
-
+//    public LiveData<PagedList<Note>> getAllNotes(){
+//        // change to use Pangging
+//        return new LivePagedListBuilder<>(mNoteRepository.getAllNotes(),20).build();
+//        // memberi batas page hanya 20 size
+//
+//    }
+    // get all with RawQuery
+    public LiveData<PagedList<Note>> getAllNote(String sort){
+        return new LivePagedListBuilder<>(mNoteRepository.getAllNote(sort),20).build();
     }
 }

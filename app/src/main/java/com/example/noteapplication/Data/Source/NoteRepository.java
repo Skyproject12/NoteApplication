@@ -4,9 +4,11 @@ import android.app.Application;
 
 import androidx.lifecycle.LiveData;
 import androidx.paging.DataSource;
+import androidx.sqlite.db.SimpleSQLiteQuery;
 
 import com.example.noteapplication.Data.Module.Note;
 import com.example.noteapplication.Data.Source.Locale.NoteDao;
+import com.example.noteapplication.Data.Source.Locale.SortUtils;
 import com.example.noteapplication.Data.Source.Locale.roomDatabase;
 
 import java.util.List;
@@ -26,11 +28,11 @@ public class NoteRepository {
 
     }
 
-    // initial class notedao
-    public DataSource.Factory<Integer,Note> getAllNotes(){
-        return mNoteDao.getAllNotes();
-
-    }
+//    // initial class notedao
+//    public DataSource.Factory<Integer,Note> getAllNotes(){
+//        return mNoteDao.getAllNotes();
+//
+//    }
 
     // call Notedao to insert data
     public void insert(final Note note){
@@ -60,6 +62,13 @@ public class NoteRepository {
                 mNoteDao.update(note);
             }
         });
+    }
+
+    // getAll note where orderby desc and order by asc
+    public DataSource.Factory<Integer, Note> getAllNote(String sort){
+        SimpleSQLiteQuery query= SortUtils.getSorteredQuery(sort);
+        return mNoteDao.getAllNote(query);
+
     }
 
 }

@@ -66,7 +66,9 @@ public class NoteRepository {
 
     // getAll note where orderby desc and order by asc
     public DataSource.Factory<Integer, Note> getAllNote(String sort){
+        // call getSortedQuery from SortUtil
         SimpleSQLiteQuery query= SortUtils.getSorteredQuery(sort);
+        // and return mNoteDao with sortQuery
         return mNoteDao.getAllNote(query);
 
     }

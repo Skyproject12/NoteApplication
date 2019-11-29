@@ -1,5 +1,12 @@
 package com.example.noteapplication.Ui.Home;
 
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
@@ -7,10 +14,6 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.paging.PagedList;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.View;
 
 import com.example.noteapplication.Data.Module.Note;
 import com.example.noteapplication.Data.Source.Locale.SortUtils;
@@ -21,34 +24,32 @@ import com.example.noteapplication.ViewModel.ViewModelFactory.ViewModelFactory;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
-import java.util.List;
-import java.util.Observable;
-
 public class HomeActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     //private HomeAdapter adapter;
     private NotePageListAdapter adapter;
+    HomeViewModel homeViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        HomeViewModel homeViewModel= obtainViewModel(HomeActivity.this);
+        homeViewModel = obtainViewModel(HomeActivity.this);
         // set value notes in noteObserver use homeViewModel.getAllNotes
         homeViewModel.getAllNote(SortUtils.NEWEST).observe(this, noteObserver);
-        adapter= new NotePageListAdapter(HomeActivity.this);
-        recyclerView= findViewById(R.id.recycler_note);
+        adapter = new NotePageListAdapter(HomeActivity.this);
+        recyclerView = findViewById(R.id.recycler_note);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(adapter);
-        FloatingActionButton fabAdd= findViewById(R.id.fab_note);
+        FloatingActionButton fabAdd = findViewById(R.id.fab_note);
         fabAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // ketika id fab di click maka yang di request adalah insert
-                if(v.getId()==R.id.fab_note){
-                    Intent intent= new Intent(HomeActivity.this, NoteAddUpdateActivity.class);
+                if (v.getId() == R.id.fab_note) {
+                    Intent intent = new Intent(HomeActivity.this, NoteAddUpdateActivity.class);
                     startActivityForResult(intent, NoteAddUpdateActivity.REQUEST_ADD);
 
                 }
@@ -60,27 +61,52 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(data!=null){
+        if (data != null) {
             // ketika status Request adalah add  dan data tidak kosong
-            if(requestCode==NoteAddUpdateActivity.REQUEST_ADD){
-                if(resultCode== NoteAddUpdateActivity.RESULT_ADD) {
+            if (requestCode == NoteAddUpdateActivity.REQUEST_ADD) {
+                if (resultCode == NoteAddUpdateActivity.RESULT_ADD) {
                     showSnackBarMessage(getString(R.string.added));
                 }
-             // ketika request update
-            } else if(requestCode== NoteAddUpdateActivity.REQUEST_UPDATE){
+                // ketika request update
+            } else if (requestCode == NoteAddUpdateActivity.REQUEST_UPDATE) {
                 // status yang diset di NoteAddUpdateActivity
-                if(resultCode==NoteAddUpdateActivity.RESULT_UPDATE){
+                if (resultCode == NoteAddUpdateActivity.RESULT_UPDATE) {
                     showSnackBarMessage(getString(R.string.change));
-                }
-                else if(resultCode==NoteAddUpdateActivity.RESULT_DELETE){
+                } else if (resultCode == NoteAddUpdateActivity.RESULT_DELETE) {
                     showSnackBarMessage(getString(R.string.delete));
                 }
             }
         }
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    // make menu to choose status sort desc or asc
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        // melakukan pengcekan status sort yang dipilih melalui menu
+        String sort="";
+        switch (item.getItemId()){
+            case R.id.action_newest:
+                sort= SortUtils.NEWEST;
+                break;
+            case R.id.action_oldest:
+                sort= SortUtils.OLDEST;
+                break;
+        }
+        // initial view model to display di data based on noteObserver
+        homeViewModel.getAllNote(sort).observe(this, noteObserver);
+        // membuat status checked true
+        item.setChecked(true);
+        return super.onOptionsItemSelected(item);
+    }
+
     // change select data to pagedList
-    private final Observer<PagedList<Note>> noteObserver= new Observer<PagedList<Note>>() {
+    private final Observer<PagedList<Note>> noteObserver = new Observer<PagedList<Note>>() {
         @Override
         public void onChanged(PagedList<Note> notes) {
             // submit list merupakan suatu funsgsi dari PagedList untuk menambahkan data ke dalam adapter
@@ -98,14 +124,14 @@ public class HomeActivity extends AppCompatActivity {
 //        }
 //    };
 
-    HomeViewModel obtainViewModel(AppCompatActivity activity){
-        ViewModelFactory factory= ViewModelFactory.getInstance(activity.getApplication());
-        return ViewModelProviders.of(activity,factory).get(HomeViewModel.class);
+    HomeViewModel obtainViewModel(AppCompatActivity activity) {
+        ViewModelFactory factory = ViewModelFactory.getInstance(activity.getApplication());
+        return ViewModelProviders.of(activity, factory).get(HomeViewModel.class);
 
     }
 
     //set snackbar
-    private void showSnackBarMessage(String message){
+    private void showSnackBarMessage(String message) {
         Snackbar.make(recyclerView, message, Snackbar.LENGTH_SHORT).show();
 
     }

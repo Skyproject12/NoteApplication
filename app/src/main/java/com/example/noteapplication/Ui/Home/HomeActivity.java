@@ -4,6 +4,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.paging.PagedList;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -25,7 +26,8 @@ import java.util.Observable;
 public class HomeActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
-    private HomeAdapter adapter;
+    //private HomeAdapter adapter;
+    private NotePageListAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +36,7 @@ public class HomeActivity extends AppCompatActivity {
         HomeViewModel homeViewModel= obtainViewModel(HomeActivity.this);
         // set value notes in noteObserver use homeViewModel.getAllNotes
         homeViewModel.getAllNotes().observe(this, noteObserver);
-        adapter= new HomeAdapter(HomeActivity.this);
+        adapter= new NotePageListAdapter(HomeActivity.this);
         recyclerView= findViewById(R.id.recycler_note);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setHasFixedSize(true);
@@ -76,15 +78,24 @@ public class HomeActivity extends AppCompatActivity {
         }
     }
 
-    private final Observer<List<Note>> noteObserver= new Observer<List<Note>>() {
+    // change select data to pagedList
+    private final Observer<PagedList<Note>> noteObserver= new Observer<PagedList<Note>>() {
         @Override
-        public void onChanged(List<Note> notes) {
-            if(notes!=null){
-                // set list use data from viewmodel
-                adapter.setListNote(notes);
-            }
+        public void onChanged(PagedList<Note> notes) {
+            // submit list merupakan suatu funsgsi dari PagedList untuk menambahkan data ke dalam adapter
+            adapter.submitList(notes);
         }
     };
+
+//    private final Observer<List<Note>> noteObserver= new Observer<List<Note>>() {
+//        @Override
+//        public void onChanged(List<Note> notes) {l
+//            if(notes!=null){
+//                // set list use data from viewmodel
+//
+//            }
+//        }
+//    };
 
     HomeViewModel obtainViewModel(AppCompatActivity activity){
         ViewModelFactory factory= ViewModelFactory.getInstance(activity.getApplication());

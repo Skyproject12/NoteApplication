@@ -56,8 +56,7 @@ public class Note implements Parcelable {
         this.date = date;
     }
 
-    public Note(int id, String title, String description, String date) {
-        this.id = id;
+    public Note(String title, String description, String date) {
         this.title = title;
         this.description = description;
         this.date = date;

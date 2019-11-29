@@ -3,6 +3,7 @@ package com.example.noteapplication.Data.Source;
 import android.app.Application;
 
 import androidx.lifecycle.LiveData;
+import androidx.paging.DataSource;
 
 import com.example.noteapplication.Data.Module.Note;
 import com.example.noteapplication.Data.Source.Locale.NoteDao;
@@ -11,6 +12,7 @@ import com.example.noteapplication.Data.Source.Locale.roomDatabase;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+
 
 public class NoteRepository {
     // initial dao
@@ -25,7 +27,7 @@ public class NoteRepository {
     }
 
     // initial class notedao
-    public LiveData<List<Note>> getAllNotes(){
+    public DataSource.Factory<Integer,Note> getAllNotes(){
         return mNoteDao.getAllNotes();
 
     }
